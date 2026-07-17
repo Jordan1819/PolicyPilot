@@ -1,0 +1,10 @@
+.env
+env/
+.venv/
+venv/
+__pycache__/
+test_models.py
+test_pdf.py
+test_embedding.py
+test_database.py
+db_login.txt

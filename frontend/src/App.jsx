@@ -84,6 +84,7 @@ export default function App() {
       <div className="workspace">
         <Sidebar />
         <main>
+          <AnswerCard response={response} />
           <section className="hero">
             <p className="eyebrow">Employee handbook assistant</p>
             <h1>Find the policy guidance you need.</h1>
@@ -91,7 +92,6 @@ export default function App() {
           </section>
 
           {error && <div className="error-card" role="alert"><strong>Unable to complete your request</strong><span>{error}</span></div>}
-          <AnswerCard response={response} />
         </main>
       </div>
 

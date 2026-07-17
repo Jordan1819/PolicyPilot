@@ -103,6 +103,10 @@ def logout(response: Response):
 def root():
     return {"message": "PolicyPilot API is running!"}
 
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
 @app.post("/ask", response_model=AnswerResponse)
 def ask(request: QuestionRequest, _: None = Depends(require_authenticated_user)):
     return answer_question(request.question)

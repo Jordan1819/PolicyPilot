@@ -12,6 +12,7 @@ from fastapi.responses import FileResponse
 
 from app.config import (
     COOKIE_SECURE,
+    COOKIE_SAMESITE,
     CORS_ORIGINS,
     MASTER_PASSWORD,
     MASTER_USERNAME,
@@ -84,7 +85,7 @@ def login(request: LoginRequest, response: Response):
         max_age=SESSION_DURATION_SECONDS,
         httponly=True,
         secure=COOKIE_SECURE,
-        samesite="lax",
+        samesite=COOKIE_SAMESITE,
     )
     return {"authenticated": True}
 
@@ -96,7 +97,12 @@ def get_session(_: None = Depends(require_authenticated_user)):
 
 @app.post("/auth/logout")
 def logout(response: Response):
-    response.delete_cookie(key=SESSION_COOKIE_NAME, httponly=True, secure=COOKIE_SECURE, samesite="lax")
+    response.delete_cookie(
+        key=SESSION_COOKIE_NAME,
+        httponly=True,
+        secure=COOKIE_SECURE,
+        samesite=COOKIE_SAMESITE,
+    )
     return {"authenticated": False}
 
 @app.get("/")

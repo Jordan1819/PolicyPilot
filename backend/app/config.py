@@ -17,4 +17,14 @@ MASTER_PASSWORD = os.getenv("MASTER_PASSWORD")
 SESSION_SECRET = os.getenv("SESSION_SECRET")
 SESSION_DURATION_SECONDS = int(os.getenv("SESSION_DURATION_SECONDS", "28800"))
 COOKIE_SECURE = os.getenv("COOKIE_SECURE", "false").lower() == "true"
-CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(",")
+COOKIE_SAMESITE = os.getenv("COOKIE_SAMESITE", "lax").lower()
+CORS_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(",")
+]
+
+if COOKIE_SAMESITE not in {"lax", "strict", "none"}:
+    raise ValueError("COOKIE_SAMESITE must be one of: lax, strict, none.")
+
+if COOKIE_SAMESITE == "none" and not COOKIE_SECURE:
+    raise ValueError("COOKIE_SECURE must be true when COOKIE_SAMESITE is none.")

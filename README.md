@@ -128,6 +128,7 @@ MASTER_USERNAME=demo
 MASTER_PASSWORD=replace-with-a-strong-password
 SESSION_SECRET=replace-with-a-long-random-secret
 COOKIE_SECURE=false
+COOKIE_SAMESITE=lax
 CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
 ```
 
@@ -203,7 +204,11 @@ POST /ask
 
 ## Deployment notes
 
+- PolicyPilot is deployed on Render as two separate services: a **Python Web Service** for the FastAPI API and a **Static Site** for the compiled React/Vite frontend. Supabase remains the managed vector database.
+- The frontend Static Site is built from `frontend/` and receives the public backend URL through `VITE_API_BASE_URL`. The backend Web Service runs from `backend/` with `uvicorn app.main:app --host 0.0.0.0 --port $PORT`.
+- Set `VITE_API_BASE_URL` to the complete public URL of the deployed backend, then set the backend’s `CORS_ORIGINS` to the exact public URL of the deployed frontend.
 - Set `COOKIE_SECURE=true` when the application is served over HTTPS.
+- When the frontend and API are on different sites, set `COOKIE_SAMESITE=none` with `COOKIE_SECURE=true` so the browser includes the session cookie with cross-site API requests. The default `lax` setting remains appropriate for local development and same-site sibling custom domains such as `app.example.com` and `api.example.com`.
 - Set `CORS_ORIGINS` to the exact deployed frontend origin or origins, separated by commas.
 - Keep Gemini, Supabase, authentication, and session values in the hosting platform’s secret manager—not source control.
 - Ingest the employee handbook before demonstrating the application so the vector store contains searchable content.

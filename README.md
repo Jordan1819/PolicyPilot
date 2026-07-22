@@ -1,5 +1,7 @@
 # PolicyPilot
 
+## [Check it out here!](https://policypilot-m2td.onrender.com/)
+
 > AI-Powered Enterprise Knowledge Assistant
 
 PolicyPilot is a retrieval-augmented generation (RAG) application that helps employees find grounded answers to questions about an employee handbook. Rather than relying on a model's general knowledge, it retrieves relevant passages from the organization’s indexed policy content and supplies that context to Google Gemini before an answer is generated.
